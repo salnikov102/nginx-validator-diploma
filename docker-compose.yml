@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: validator_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - backend-a
+      - backend-b
+    networks:
+      - validator-net
+
+  backend-a:
+    build: ./backends/backend-a
+    container_name: validator_backend_a
+    environment:
+      - SERVICE_NAME=backend-a
+      - PORT=5001
+    networks:
+      - validator-net
+
+  backend-b:
+    build: ./backends/backend-b
+    container_name: validator_backend_b
+    environment:
+      - SERVICE_NAME=backend-b
+      - PORT=5002
+    networks:
+      - validator-net
+
+networks:
+  validator-net:
+    driver: bridge

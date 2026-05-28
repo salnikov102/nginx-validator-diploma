@@ -1,0 +1,43 @@
+name: 🔍 Nginx Behavioral Validation Pipeline
+
+# Запуск пайплайна при каждом push или pull request в основные ветки
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Скачиваем код репозитория на сервер GitHub Actions
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Устанавливаем Python для запуска скриптов валидации
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Устанавливаем библиотеки для тестов
+      - name: 📦 Install test dependencies
+        run: pip install -r tests/requirements.txt
+
+      # 4. Поднимаем изолированное окружение (Nginx + 2 бэкенда)
+      - name: 🐳 Start Docker environment
+        run: docker compose up -d
+
+      # 5. Даём сервисам время на инициализацию
+      - name: ⏳ Wait for services
+        run: sleep 15
+
+      # 6. Запускаем ваш behavioral-валидатор
+      - name: 🚀 Run Behavioral Validator
+        run: python run_validator.py
+
+      # 7. Гарантированно останавливаем контейнеры (даже если тесты упали)
+      - name: 🧹 Cleanup environment
+        if: always()
+        run: docker compose down -v
