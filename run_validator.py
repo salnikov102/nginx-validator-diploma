@@ -16,29 +16,29 @@ def run_command(command, description):
         for line in result.stdout.strip().split("\n"):
             print(f"   📄 {line}")
     if result.returncode != 0:
-        print(f"   ⚠️ {result.stderr.strip()}")
+        print(f"   {result.stderr.strip()}")
         
     return result.returncode == 0
 
 def main():
     print("="*60)
-    print("🚀 АВТОМАТИЗИРОВАННАЯ ВАЛИДАЦИЯ КОНФИГУРАЦИИ NGINX")
+    print("АВТОМАТИЗИРОВАННАЯ ВАЛИДАЦИЯ КОНФИГУРАЦИИ NGINX")
     print("="*60)
 
     # 1. Проверка синтаксиса (стандартный этап)
     if not run_command("docker compose exec -T nginx nginx -t", "Проверка синтаксиса nginx -t"):
-        print("\n❌ ВАЛИДАЦИЯ ЗАВЕРШЕНА: синтаксические ошибки в конфигурации.")
+        print("\n ВАЛИДАЦИЯ ЗАВЕРШЕНА: синтаксические ошибки в конфигурации.")
         sys.exit(1)
-    print("✅ Синтаксис корректен.")
+    print(" Синтаксис корректен.")
 
     # 2. Запуск поведенческих тестов (ваша разработка)
     if not run_command("python -m pytest tests/test_scenarios.py -v", "Запуск behavioral-тестов"):
-        print("\n❌ ВАЛИДАЦИЯ ЗАВЕРШЕНА: тесты runtime-поведения не пройдены.")
+        print("\n ВАЛИДАЦИЯ ЗАВЕРШЕНА: тесты runtime-поведения не пройдены.")
         sys.exit(1)
-    print("✅ Поведенческие сценарии отработали успешно.")
+    print(" Поведенческие сценарии отработали успешно.")
 
     print("\n" + "="*60)
-    print("🎉 ВАЛИДАЦИЯ УСПЕШНА! Конфигурация безопасна для деплоя.")
+    print(" ВАЛИДАЦИЯ УСПЕШНА! Конфигурация безопасна для деплоя.")
     print("="*60)
 
 if __name__ == "__main__":

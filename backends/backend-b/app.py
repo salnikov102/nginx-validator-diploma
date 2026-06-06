@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Простой mock-бэкенд B для тестирования конфигурации Nginx."""
+"""mock-бэкенд B для тестирования конфигурации Nginx."""
 
 import json
 import os
@@ -28,5 +28,5 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = HTTPServer(("0.0.0.0", PORT), RequestHandler)
-    print(f"✅ {SERVICE_NAME} запущен на порту {PORT}")
+    print(f" {SERVICE_NAME} запущен на порту {PORT}")
     server.serve_forever()
