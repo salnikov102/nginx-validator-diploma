@@ -1,6 +1,6 @@
-name: 🔍 Nginx Behavioral Validation Pipeline
+name:  Nginx Behavioral Validation Pipeline
 
-# Запуск пайплайна при каждом push или pull request в основные ветки
+# Запуск пайплайна при каждом push или pull request в основные ветки для GitHub Actions
 on:
   push:
     branches: [ main, master ]
@@ -33,7 +33,7 @@ jobs:
       - name: Wait for services
         run: sleep 15
 
-      # 6. Запускаем ваш behavioral-валидатор
+      # 6. Запускаем behavioral-валидатор
       - name: Run Behavioral Validator
         run: python run_validator.py
 
