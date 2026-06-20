@@ -1,6 +1,6 @@
 name:  Nginx Behavioral Validation Pipeline
 
-# Запуск пайплайна при каждом push или pull request в основные ветки для GitHub Actions
+# Запуск пайплайна при каждом push в основные ветки для GitHub Actions
 on:
   push:
     branches: [ main, master ]
