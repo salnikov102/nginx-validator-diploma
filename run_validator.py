@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Скрипт автоматизированной behavioral-валидации конфигураций Nginx.
-Ядро проекта
+Ядро проекта1
 """
 import subprocess
 import sys
